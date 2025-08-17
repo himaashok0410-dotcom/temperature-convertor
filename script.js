@@ -1,32 +1,35 @@
-document.getElementById("convertBtn").addEventListener("click", function () {
-    let inputTemp = parseFloat(document.getElementById("inputTemp").value);
-    let fromUnit = document.getElementById("fromUnit").value;
-    let toUnit = document.getElementById("toUnit").value;
-    let result = 0;
+function convertTemp() {
+    let temp = parseFloat(document.getElementById("tempInput").value);
+    let unit = document.getElementById("unit").value;
+    let result = "";
 
-    if (isNaN(inputTemp)) {
-        document.getElementById("result").innerText = "⚠️ Please enter a valid number!";
-        return;
+    if (isNaN(temp)) {
+        result = "❌ Please enter a valid number!";
+    } else {
+        switch (unit) {
+            case "c-f":
+                result = `${temp}°C = ${(temp * 9/5 + 32).toFixed(2)}°F`;
+                break;
+            case "f-c":
+                result = `${temp}°F = ${((temp - 32) * 5/9).toFixed(2)}°C`;
+                break;
+            case "c-k":
+                result = `${temp}°C = ${(temp + 273.15).toFixed(2)}K`;
+                break;
+            case "k-c":
+                result = `${temp}K = ${(temp - 273.15).toFixed(2)}°C`;
+                break;
+            case "f-k":
+                result = `${temp}°F = ${(((temp - 32) * 5/9) + 273.15).toFixed(2)}K`;
+                break;
+            case "k-f":
+                result = `${temp}K = ${(((temp - 273.15) * 9/5) + 32).toFixed(2)}°F`;
+                break;
+            default:
+                result = "❌ Please select a valid conversion!";
+        }
     }
 
-    // Step 1: Convert input to Celsius
-    if (fromUnit === "Celsius") {
-        result = inputTemp;
-    } else if (fromUnit === "Fahrenheit") {
-        result = (inputTemp - 32) * 5 / 9;
-    } else if (fromUnit === "Kelvin") {
-        result = inputTemp - 273.15;
-    }
+    document.getElementById("result").innerText = result;
+}
 
-    // Step 2: Convert Celsius to target unit
-    if (toUnit === "Celsius") {
-        result = result;
-    } else if (toUnit === "Fahrenheit") {
-        result = (result * 9 / 5) + 32;
-    } else if (toUnit === "Kelvin") {
-        result = result + 273.15;
-    }
-
-    document.getElementById("result").innerText = 
-        `✅ Converted Value: ${result.toFixed(2)} ${toUnit}`;
-});
